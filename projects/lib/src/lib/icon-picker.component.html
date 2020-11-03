@@ -24,14 +24,10 @@
               [style.padding-left.px]="ipIconHorizontalPadding"
               [style.padding-right.px]="ipIconHorizontalPadding"
               (click)="selectIcon(icon)">
-        <span *ngIf="icon.type === iconType.FONT_AWESEOME" class="fa fa-{{icon.id}}"
-              [style.font-size.px]="ipIconSize"></span>
-        <span *ngIf="icon.type === iconType.BOOTSTRAP" class="glyphicon glyphicon-{{icon.id}}"
-              [style.font-size.px]="ipIconSize"></span>
-        <span *ngIf="icon.type === iconType.FONT_AWESEOME5" class="{{icon.id}}"
-              [style.font-size.px]="ipIconSize"></span>
-        <span *ngIf="icon.type === iconType.MATERIAL" class="material-icons"
-              [style.font-size.px]="ipIconSize">{{icon.id}}</span>
+            <span *ngIf="icon.type === iconType.CLASS_DEFINED" class="{{icon.class}}"
+                  [style.font-size.px]="ipIconSize"></span>
+            <span *ngIf="icon.type === iconType.LIGATURE_DEFINED" class="{{icon.class}}"
+                  [style.font-size.px]="ipIconSize">{{icon.id}}</span>
       </button>
     </div>
   </div>

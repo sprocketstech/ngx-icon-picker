@@ -8,50 +8,42 @@ import {MaterialIconsPack} from './pack/material-icons-pack';
 
 @Injectable()
 export class IconPickerService {
-  private bsIconPack: IconsPack;
-  private fa4IconsPack: IconsPack;
-  private fa5IconsPack: IconsPack;
-  private matIconsPack: IconsPack;
+  private packs = new Map<string, IconsPack>();
 
   constructor() {
-    this.bsIconPack = new BootstrapIconsPack();
-    this.fa4IconsPack = new FontAwesome4IconsPack();
-    this.fa5IconsPack = new FontAwesome5IconsPack();
-    this.matIconsPack = new MaterialIconsPack();
+    this.packs.set('fa', new FontAwesome4IconsPack());
+    this.packs.set('fa5', new FontAwesome5IconsPack());
+    this.packs.set('bs', new BootstrapIconsPack());
+    this.packs.set('mat', new MaterialIconsPack());
+  }
+
+  addIcons(name: string, pack: IconsPack) {
+    this.packs.set(name, pack);
   }
 
   getIcons(ipIconPacks: string[]): Icon[] {
     let icons: Icon[] = [];
-    ipIconPacks.forEach((ipIconPack) => {
-      if (ipIconPack === 'fa' || ipIconPack === 'all') {
-        const faIcons = this.fa4IconsPack.getIcons().map(icon => {
-          icon.type = IconType.FONT_AWESEOME;
-          return icon;
-        });
-        icons = icons.concat(faIcons);
+    if (ipIconPacks.indexOf('all') >= 0) {
+      for (const key of this.packs.keys()) {
+        const pack = this.packs.get(key);
+        icons = icons.concat(this.getPackIcons(pack));
       }
-      if (ipIconPack === 'bs' || ipIconPack === 'all') {
-        const bsIcons = this.bsIconPack.getIcons().map(icon => {
-          icon.type = IconType.BOOTSTRAP;
-          return icon;
-        });
-        icons = icons.concat(bsIcons);
-      }
-      if (ipIconPack === 'fa5' || ipIconPack === 'all') {
-        const fa5Icons = this.fa5IconsPack.getIcons().map(icon => {
-          icon.type = IconType.FONT_AWESEOME5;
-          return icon;
-        });
-        icons = icons.concat(fa5Icons);
-      }
-      if (ipIconPack === 'mat' || ipIconPack === 'all') {
-        const matIcons = this.matIconsPack.getIcons().map(icon => {
-          icon.type = IconType.MATERIAL;
-          return icon;
-        });
-        icons = icons.concat(matIcons);
-      }
-    });
+    } else {
+      ipIconPacks.forEach((ipIconPack) => {
+        if (this.packs.has(ipIconPack)) {
+          const pack = this.packs.get(ipIconPack);
+          icons = icons.concat(this.getPackIcons(pack));
+        }
+      });
+    }
     return icons;
+  }
+
+  private getPackIcons(pack: IconsPack): Icon[] {
+    return pack.getIcons().map(icon => {
+      icon.type = pack.getType();
+      icon.class = pack.getClass(icon.id);
+      return icon;
+    });
   }
 }

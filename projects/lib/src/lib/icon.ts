@@ -1,14 +1,13 @@
 export class Icon {
   name: string;
   id: string;
+  class?: string;
   filter?: string[];
   aliases?: string[];
   type?: IconType;
 }
 
 export enum IconType {
-  FONT_AWESEOME,
-  BOOTSTRAP,
-  FONT_AWESEOME5,
-  MATERIAL,
+  CLASS_DEFINED,
+  LIGATURE_DEFINED,
 }

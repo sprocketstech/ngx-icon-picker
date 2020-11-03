@@ -1,7 +1,15 @@
-import {Icon} from '../icon';
+import {Icon, IconType} from '../icon';
 import {IconsPack} from '../icons-pack';
 
 export class FontAwesome5IconsPack implements IconsPack {
+  public getType(): IconType {
+    return IconType.CLASS_DEFINED;
+  }
+
+  public getClass(id: string): string {
+    return `${id}`;
+  }
+
   public getIcons(): Icon[] {
     return [
       {

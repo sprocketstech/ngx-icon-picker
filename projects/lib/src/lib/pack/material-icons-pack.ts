@@ -1,7 +1,15 @@
-import {Icon} from '../icon';
+import {Icon, IconType} from '../icon';
 import {IconsPack} from '../icons-pack';
 
 export class MaterialIconsPack implements IconsPack {
+  public getType(): IconType {
+    return IconType.LIGATURE_DEFINED;
+  }
+
+  public getClass(id: string): string {
+    return `material-icons`;
+  }
+
   public getIcons(): Icon[] {
     return [
       {
